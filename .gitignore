@@ -1,7 +1,7 @@
 # Ignore volumes
-./volumes
-./mysql
-./src/public/*
+# ./volumes
+# ./mysql
+# ./src/public/*
 
-# Ignore sources, except
-!./src/public/php_info.php
+# # Ignore sources, except
+# !./src/public/php_info.php
