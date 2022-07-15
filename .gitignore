@@ -1,7 +1,7 @@
 # Ignore volumes
 volumes
 mysql
-src/public/*
+src/*
 
 # Ignore sources, except
 !src/php_info.php
