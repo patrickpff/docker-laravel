@@ -4,4 +4,4 @@ mysql
 src/public/*
 
 # Ignore sources, except
-!src/public/php_info.php
+!src/php_info.php
