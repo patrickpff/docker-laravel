@@ -23,25 +23,23 @@ This code will create the needed docker container. In MYSQL, it will create a da
 You can run any Artisan command with specifying the path:
 
 ```
-docker-compose exec -w /var/www/html/*project-name* php *your artisan command here*
+docker-compose exec -w /var/www/html/project-name php *your artisan command here*
 ```
 
 So, to generate the key for your application, you can run:
 
 ```
-docker-compose exec -w /var/www/html/*project-name* php php artisan key:generate
+docker-compose exec -w /var/www/html/project-name php php artisan key:generate
 ```
 
 To serve the application, just create or clone the application to the /src folder and run the following lines:
 
 ```
-docker-compose exec -w /var/www/html/*project-name* php php artisan serve
+docker-compose exec -w /var/www/html/project-name php php artisan serve
 ```
 
 It might be possible to change the permissions of your /storage folder. In orther to do that, you might run:
 
 ```
-docker-compose exec -w /var/www/html/*project-name* php chmod o+w ./storage/ -R
+docker-compose exec -w /var/www/html/project-name php chmod o+w ./storage/ -R
 ```
-
-docker-compose exec -w /var/www/html/selecao-geral php php artisan key:generate
