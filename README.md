@@ -43,3 +43,11 @@ It might be possible to change the permissions of your /storage folder. In orthe
 ```
 docker-compose exec -w /var/www/html/project-name php chmod o+w ./storage/ -R
 ```
+
+# Or
+
+Build and enter the docker container and type in:
+
+```
+php artisan serve --host=0.0.0.0 --port=8000
+```
