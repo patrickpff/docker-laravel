@@ -1,53 +1,108 @@
+# 🐳 Docker-Laravel
 
-# Docker-Laravel
+A lightweight and fast Docker environment to run multiple **Laravel/PHP** applications with **Nginx** and **MySQL**.
 
-A fast and simplified way to prepare docker to run Laravel/PHP multiple applications with Nginx. This project is focused on old Laravel projects, and It is being tested  with Laravel Framework 5.5.50.
-With these files, you can create a project with the following specifications:
-  
-- PHP 7.2.34
-- MYSQL 5.7.22
-- NGINX
+This setup is designed for both modern and legacy Laravel projects, providing a simple, reusable, and stable environment.
 
-... or modify and create your own project with the required speficications.
+---
 
-## Instalation
-After downloading the project, run the following commands to build and start your Docker project:
+## 🚀 Stack
+
+| Service | Version | Container |
+|----------|----------|------------|
+| PHP | 7.0 (FPM Alpine) | `php` |
+| Nginx | Stable Alpine | `nginx` |
+| MySQL | 5.7.22 | `mysql` |
+| Composer | Latest | Included in PHP container |
+
+---
+
+## 📁 Directory Structure
+
+```.
+docker-laravel/
+├── DockerFile
+├── docker-compose.yml
+├── nginx/
+│ └── default.conf
+├── php/
+│ └── custom.ini
+├── mysql/
+│ └── (persistent database files)
+└── src/
+└── (your PHP/Laravel project here)
 ```
+
+## ⚙️ Setup
+
+### 1️⃣ Build and start containers
+
+```bash
 docker compose build
 docker compose up -d
 ```
-This code will create the needed docker container. In MYSQL, it will create a database named "Laravel", but if you want use this only one copy of this project to more than one Laravel project, or if you need to consult data in another local database, it might be interesting to create another database inside Docker.
 
-## Run
+This will create and start the PHP, MySQL, and Nginx containers.
 
-You can run any Artisan command with specifying the path:
+### 2️⃣ Database configuration
+A database named **laravel** is automatically created with the following credentials:
 
-```
-docker-compose exec -w /var/www/html/project-name php *your artisan command here*
-```
+| Parameter     | Value     |
+| ------------- | --------- |
+| Host          | `mysql`   |
+| Database      | `laravel` |
+| User          | `laravel` |
+| Password      | `root`    |
+| Root Password | `root`    |
 
-So, to generate the key for your application, you can run:
+### 3️⃣ Running Artisan commands
+
+You can execute Artisan commands directly inside the PHP container:
 
 ```
 docker-compose exec -w /var/www/html/project-name php php artisan key:generate
+docker-compose exec -w /var/www/html/project-name php php artisan migrate
 ```
 
-To serve the application, just create or clone the application to the /src folder and run the following lines:
+### 4️⃣ Serving the application
+
+Clone or copy your Laravel project inside the /src directory and run:
+
 
 ```
-docker-compose exec -w /var/www/html/project-name php php artisan serve
+docker-compose exec -w /var/www/html/project-name php php artisan serve --host=0.0.0.0 --port=8000
 ```
 
-It might be possible to change the permissions of your /storage folder. In orther to do that, you might run:
+Your application will be available at:
+
+👉 http://localhost:8000/
+
+### 5️⃣ Fixing storage permissions (if needed)
+
+If you encounter permission issues, run:
 
 ```
-docker-compose exec -w /var/www/html/project-name php chmod o+w ./storage/ -R
+docker-compose exec -w /var/www/html/project-name php chmod -R o+w storage
 ```
 
-# Or
+## 🧹 Stopping containers
 
-Build and enter the docker container and type in:
+To stop and remove all containers:
 
 ```
-php artisan serve --host=0.0.0.0 --port=8000
+docker compose down
 ```
+
+
+## 🧠 Notes
+Composer is already installed inside the PHP container.
+
+MySQL data is persisted via a mounted volume.
+
+You can use this same Docker setup for multiple Laravel projects — just add each one as a subfolder under /src/.
+
+Designed for Laravel 5.x and older PHP versions but can be easily extended for newer stacks.
+
+---
+
+Built with ❤️ to simplify and accelerate development of legacy Laravel projects — where Sail isn’t available or suitable.
